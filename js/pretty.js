@@ -1,7 +1,5 @@
 
 
-
-
 //counties is the array of data
 //target is the selection of the g element to place the graph in
 //xscale,yscale are the x and y scales.
@@ -70,15 +68,52 @@ var makeTranslateString = function(x,y)
 var drawAxes = function(graphDim,margins,
                          xScale,yScale)
 {
-   
+
+        var xAxis = d3.axisBottom(xScale);
+        var yAxis = d3.axisLeft(yScale);
+        
+        var axes = d3.select("svg")
+            .append("g")
+        axes.append("g")
+            .attr("transform", "translate("+margins.left+","+(margins.top+graphDim.height)+")")
+            .call(xAxis)
+        axes.append("g")
+            .attr("transform", "translate("+margins.left+","+(margins.top)+")")
+            .call(yAxis)
+
  
 }
 
 
 //graphDim -object that stores dimensions of the graph area
-//margins - objedct that stores the size of the margins
+//margins - object that stores the size of the margins
 var drawLabels = function(graphDim,margins)
 {
+    var labels = d3.select("svg")
+        .append("g")
+        .classed("labels", true)
+        
+    labels.append("text")
+        .text("Trump Support")
+        .classed("title", true)
+        .attr("text-anchor", "middle")
+        .attr("x", margins.left+(graphDim.width/2))
+        .attr("y", margins.top+(10))
+    
+    labels.append("text")
+        .text("Percentage Voting for Trump")
+        .classed("label", true)
+        .attr("text-anchor", "middle")
+        .attr("transform", "translate(18," + (graphDim.height/2)+") rotate(270) ")
+    
+    labels.append("text")
+        .text("Percent White")
+        .classed("label", true)
+        .attr("text-anchor", "middle")
+        .attr("x", margins.left+(graphDim.width/2))
+        .attr("y", margins.top+(graphDim.height)+(40))
+    
+    
     
 }
 
@@ -98,8 +133,20 @@ var drawLegend = function(graphDim,margins)
        }
     ]
 
-
-    
+   var legend = d3.select("svg")
+        .append("g")
+        .classed("legend", true)
+        .attr("transform", "translate("+margins.left+graphDim.width", 50)")
+   
+   var entries = legend.selectAll("g")
+        .data(["Less College", "High Unemployment"])
+        .enter()
+        .append("g")
+        .classed("legendEntry", true)
+        .attr("fill", function(stat)
+                {
+            return 
+        })
     
     
 }
@@ -110,7 +157,7 @@ var initGraph = function(counties)
     //size of screen
     var screen = {width:800,height:600}
     //how much space on each side
-    var margins = {left:30,right:20,top:20,bottom:30}
+    var margins = {left:50,right:50,top:50,bottom:50}
     
     
     
@@ -150,8 +197,8 @@ var initGraph = function(counties)
     
     
     
+    
 }
-
 
 
 
