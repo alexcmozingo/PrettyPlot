@@ -136,18 +136,41 @@ var drawLegend = function(graphDim,margins)
    var legend = d3.select("svg")
         .append("g")
         .classed("legend", true)
-        .attr("transform", "translate("+margins.left+graphDim.width", 50)")
+        .attr("transform", "translate("+(graphDim.width+margins.left)+", 50)")
    
    var entries = legend.selectAll("g")
-        .data(["Less College", "High Unemployment"])
+        .data(categories)
         .enter()
         .append("g")
         .classed("legendEntry", true)
-        .attr("fill", function(stat)
+        .attr("class", function(stat)
                 {
-            return 
+                 return stat.class
+            
         })
-    
+        .attr("transform", function(stat,index)
+                {
+            return "translate(0, "+(index*20)+")"
+        })
+   
+        entries.append("circle")
+            .attr("r", 5)
+            .attr("cx", 8)
+            .attr("cy", 5)
+            .attr("class", function(stat)
+                {
+                 return stat.class
+            
+        })
+            
+
+        entries.append("text")
+            .text(function(stat)
+                    {
+            return stat.name
+        })
+            .attr("x", 19)
+            .attr("y", 10)    
     
 }
 
@@ -157,7 +180,7 @@ var initGraph = function(counties)
     //size of screen
     var screen = {width:800,height:600}
     //how much space on each side
-    var margins = {left:50,right:50,top:50,bottom:50}
+    var margins = {left:50,right:200,top:50,bottom:50}
     
     
     
